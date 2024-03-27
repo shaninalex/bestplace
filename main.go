@@ -33,43 +33,32 @@ var blocks = []map[string]bool{
 }
 
 func BestPlace(blocks []map[string]bool) int {
-
 	var bestPlace int
-
 	for i := range blocks {
-		// distances := 0
-		// for _, v := range blocks[i] {
-		// 	if v {
-		// 		distances++
-		// 	}
-		// }
-		// // score := float64(distances) / float64(len(blocks[i]))
-		fmt.Printf("Current block: %d\n", i)
 
+		fmt.Printf("Current block: %d\n", i)
+		distances := map[string]int{}
 		for delta := 1; i-delta >= 0 || i+delta < len(blocks); delta++ {
-			distances := map[string]int{}
 			if i-delta >= 0 {
-				for k, _ := range blocks[i-delta] {
-					if blocks[i-delta][k] {
+				for k, v := range blocks[i-delta] {
+					if blocks[i-delta][k] && !blocks[i][k] {
 						distances[k] = i - delta
 					}
-					// fmt.Println("Prev: ", k, v, i-delta)
+					fmt.Println("Prev: ", k, v, i-delta)
 				}
 			}
 			if i+delta < len(blocks) {
-				for k, _ := range blocks[i+delta] {
-					if blocks[i+delta][k] {
+				for k, v := range blocks[i+delta] {
+					if blocks[i+delta][k] && !blocks[i][k] {
 						distances[k] = i + delta
 					}
-					// fmt.Println("Next: ", k, v, i+delta)
+					fmt.Println("Next: ", k, v, i+delta)
 				}
 			}
 			// TODO: check if all keys in distances > 0 then break
-			fmt.Println(distances)
-
 		}
+		fmt.Println(distances)
 		fmt.Println()
-
 	}
 	return bestPlace
 }

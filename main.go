@@ -32,19 +32,46 @@ var blocks = []map[string]bool{
 	},
 }
 
-func BestPlace(blocks []map[string]bool) {
+func BestPlace(blocks []map[string]bool) int {
+
+	var bestPlace int
+
 	for i := range blocks {
+		// distances := 0
+		// for _, v := range blocks[i] {
+		// 	if v {
+		// 		distances++
+		// 	}
+		// }
+		// // score := float64(distances) / float64(len(blocks[i]))
 		fmt.Printf("Current block: %d\n", i)
+
 		for delta := 1; i-delta >= 0 || i+delta < len(blocks); delta++ {
+			distances := map[string]int{}
 			if i-delta >= 0 {
-				fmt.Printf("Prev: %d (school: %v, gym: %v, store: %v)\n", i-delta, blocks[i-delta]["school"], blocks[i-delta]["gym"], blocks[i-delta]["store"])
+				for k, _ := range blocks[i-delta] {
+					if blocks[i-delta][k] {
+						distances[k] = i - delta
+					}
+					// fmt.Println("Prev: ", k, v, i-delta)
+				}
 			}
 			if i+delta < len(blocks) {
-				fmt.Printf("Next: %d (school: %v, gym: %v, store: %v)\n", i+delta, blocks[i+delta]["school"], blocks[i+delta]["gym"], blocks[i+delta]["store"])
+				for k, _ := range blocks[i+delta] {
+					if blocks[i+delta][k] {
+						distances[k] = i + delta
+					}
+					// fmt.Println("Next: ", k, v, i+delta)
+				}
 			}
+			// TODO: check if all keys in distances > 0 then break
+			fmt.Println(distances)
+
 		}
 		fmt.Println()
+
 	}
+	return bestPlace
 }
 
 func main() {

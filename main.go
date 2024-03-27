@@ -34,31 +34,35 @@ var blocks = []map[string]bool{
 
 func BestPlace(blocks []map[string]bool) int {
 	var bestPlace int
-	for i := range blocks {
 
+	for i := range blocks {
 		fmt.Printf("Current block: %d\n", i)
 		distances := map[string]int{}
+
 		for delta := 1; i-delta >= 0 || i+delta < len(blocks); delta++ {
 			if i-delta >= 0 {
-				for k, v := range blocks[i-delta] {
+				for k := range blocks[i-delta] {
 					if blocks[i-delta][k] && !blocks[i][k] {
-						distances[k] = i - delta
+						_, ok := distances[k]
+						if !ok {
+							distances[k] = delta
+						}
 					}
-					fmt.Println("Prev: ", k, v, i-delta)
 				}
 			}
 			if i+delta < len(blocks) {
-				for k, v := range blocks[i+delta] {
+				for k := range blocks[i+delta] {
 					if blocks[i+delta][k] && !blocks[i][k] {
-						distances[k] = i + delta
+						_, ok := distances[k]
+						if !ok {
+							distances[k] = delta
+						}
 					}
-					fmt.Println("Next: ", k, v, i+delta)
 				}
 			}
 			// TODO: check if all keys in distances > 0 then break
 		}
 		fmt.Println(distances)
-		fmt.Println()
 	}
 	return bestPlace
 }
